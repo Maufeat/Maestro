@@ -26,8 +26,8 @@ namespace MaestroServer
             Console.ForegroundColor = ConsoleColor.Cyan;
             printHeader();
             Console.ForegroundColor = ConsoleColor.White;
-
-            MaestroServer server = new MaestroServer(port);
+            
+            MaestroServer server = new MaestroServer(port, args);
         }
 
         #region ConsoleHeader
@@ -70,7 +70,7 @@ namespace MaestroServer
         private TcpListener _server;
         private static List<MaestroClient> clients = new List<MaestroClient>();
 
-        public MaestroServer(int port)
+        public MaestroServer(int port, string[] args)
         {
             _server = new TcpListener(IPAddress.Any, port);
 
@@ -156,7 +156,6 @@ namespace MaestroServer
 
         private void onDisconnected()
         {
-            Log.Print("Client disconnected.");
             hbTimer.Stop();
         }
 
@@ -178,6 +177,9 @@ namespace MaestroServer
                 {
                     case MessageType.HEARTBEAT:
                         Log.Print("[RECV] Heartbeat"); 
+                        break;
+                    case MessageType.EXIT:
+                        Log.Print("[RECV] Client closed");
                         break;
                     default:
                         Log.Print("[RECV] Unknown Type: " + Type);
