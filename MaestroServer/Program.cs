@@ -76,7 +76,7 @@ namespace MaestroServer
 
             var t = Task.Run(() =>
             {
-                Log.Print("Maestro Server is running.");
+                Log.Print($"Maestro Server is running on 0.0.0.0:{port}.");
                 while (true)
                 {
                     _server.Start();
